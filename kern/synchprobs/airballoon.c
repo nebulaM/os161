@@ -83,7 +83,6 @@ dandelion(void *p, unsigned long arg)
 
     kprintf("Dandelion thread done\n");
     V(exit_balloon_sem);
-    V(exitsem);
 }
 
 static
@@ -115,7 +114,6 @@ marigold(void *p, unsigned long arg)
 
     kprintf("Marigold thread done\n");
     V(exit_balloon_sem);
-    V(exitsem);
 }
 
 static
@@ -160,7 +158,6 @@ flowerkiller(void *p, unsigned long arg)
     kprintf("Lord FlowerKiller thread done\n");
     //inc semaphore to indicate this thread is done
     V(exit_balloon_sem);
-    V(exitsem);
 }
 
 static
@@ -226,9 +223,7 @@ panic:
       strerror(err));
 
 done:
-    for(int i=0;i<4;++i){
-        P(exitsem);
-    }
+    P(exitsem);
 
     sem_destroy(exitsem);
     sem_destroy(exit_balloon_sem);
